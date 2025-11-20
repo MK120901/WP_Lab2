@@ -1,76 +1,78 @@
 #include <stdio.h>
 
 // --- FUNKCJA LICZĄCA ŚREDNIĄ ---
-double calculateAvg(int grades[], int count) {
-    int sum = 0;
-    for (int i = 0; i < count; i++) {
-        sum += grades[i];
+double obliczSrednia(int oceny[], int liczbaOcen) {
+    int suma = 0;
+    for (int i = 0; i < liczbaOcen; i++) {
+        suma += oceny[i];
     }
-    return (double)sum / count;
+    return (double)suma / liczbaOcen;
 }
 
 // --- FUNKCJA KLASYFIKUJĄCA ŚREDNIĄ ---
-void classify(double avg) {
-    if (avg < 2.0)
+void klasyfikujSrednia(double srednia) {
+    if (srednia < 2.0)
         printf("Srednia: slaba\n");
-    else if (avg < 3.5)
+    else if (srednia < 3.5)
         printf("Srednia: przecietna\n");
-    else if (avg < 4.5)
+    else if (srednia < 4.5)
         printf("Srednia: dobra\n");
     else
         printf("Srednia: bardzo dobra\n");
 }
 
 int main() {
-    int grades[20];
-    int count;
-    char again;
+    int oceny[20];
+    int liczbaOcen;
+    char ponownie;
 
     do {
-        // --- LICZBA OCEN ---
+        // --- POBIERANIE LICZBY OCEN ---
         printf("Podaj liczbe ocen (1-20): ");
-        scanf("%d", &count);
+        scanf("%d", &liczbaOcen);
 
-        while (count < 1 || count > 20) {
-            printf("Blad! Liczba ocen musi byc 1-20: ");
-            scanf("%d", &count);
+        while (liczbaOcen < 1 || liczbaOcen > 20) {
+            printf("Blad! Liczba ocen musi byc od 1 do 20: ");
+            scanf("%d", &liczbaOcen);
         }
 
         // --- WCZYTYWANIE OCEN ---
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < liczbaOcen; i++) {
             printf("Podaj ocene %d (1-6): ", i + 1);
-            scanf("%d", &grades[i]);
+            scanf("%d", &oceny[i]);
 
-            while (grades[i] < 1 || grades[i] > 6) {
-                printf("Blad! Ocena musi byc 1-6: ");
-                scanf("%d", &grades[i]);
+            while (oceny[i] < 1 || oceny[i] > 6) {
+                printf("Blad! Ocena musi byc od 1 do 6: ");
+                scanf("%d", &oceny[i]);
             }
         }
 
-        // --- LICZENIE ŚREDNIEJ ---
-        double avg = calculateAvg(grades, count);
-        printf("Srednia ocen = %.2f\n", avg);
+        // --- OBLICZANIE ŚREDNIEJ ---
+        double srednia = obliczSrednia(oceny, liczbaOcen);
+        printf("Srednia ocen = %.2f\n", srednia);
 
-        // --- ZLICZANIE 1-2 i 5-6 ---
-        int failCount = 0;
-        int veryGoodCount = 0;
+        // --- ZLICZANIE OCEN 1–2 i 5–6 ---
+        int dopuszczajace = 0;
+        int bardzoDobre = 0;
 
-        for (int i = 0; i < count; i++) {
-            if (grades[i] <= 2) failCount++;
-            if (grades[i] >= 5) veryGoodCount++;
+        for (int i = 0; i < liczbaOcen; i++) {
+            if (oceny[i] <= 2) 
+                dopuszczajace++;
+            if (oceny[i] >= 5) 
+                bardzoDobre++;
         }
 
-        printf("Liczba ocen dopuszczajacych (1-2): %d\n", failCount);
-        printf("Liczba ocen bardzo dobrych (5-6): %d\n", veryGoodCount);
+        printf("Liczba ocen dopuszczajacych (1-2): %d\n", dopuszczajace);
+        printf("Liczba ocen bardzo dobrych (5-6): %d\n", bardzoDobre);
 
         // --- KLASYFIKACJA ŚREDNIEJ ---
-        classify(avg);
+        klasyfikujSrednia(srednia);
 
-        // --- PONOWNE URUCHOMIENIE ---
-        printf("Czy chcesz wpisac dane ponownie? (t/n): ");
-        scanf(" %c", &again);
+        // --- PYTANIE O KOLEJNE DANE ---
+        printf("Czy chcesz podac oceny ponownie? (t/n): ");
+        scanf(" %c", &ponownie);
 
-    } while (again == 't' || again == 'T');
+    } while (ponownie == 't' || ponownie == 'T');
 
     return 0;
 }
